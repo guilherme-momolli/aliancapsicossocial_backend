@@ -1,0 +1,53 @@
+services:
+  # -------------------------------------------------------------
+  # BANCO DE DADOS: PostgreSQL (Homologação)
+  # -------------------------------------------------------------
+  postgres-homolog:
+    image: postgres:16-alpine
+    container_name: aliancap-postgres-homolog
+    restart: always
+    ports:
+      - "5433:5432" # Porta alternativa para evitar conflito com local
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_homolog_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d ${DB_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - aliancap-network
+
+  # -------------------------------------------------------------
+  # BACKEND: Spring Boot API (Homologação)
+  # -------------------------------------------------------------
+  api-homolog:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aliancap-api-homolog
+    restart: always
+    ports:
+      - "${PORT:-8081}:8080" # Porta alternativa para homologação
+    env_file:
+      - envs/.env.homolog
+    environment:
+      - DB_HOST=postgres-homolog
+      - DB_PORT=5432
+    depends_on:
+      postgres-homolog:
+        condition: service_healthy
+    networks:
+      - aliancap-network
+
+volumes:
+  postgres_homolog_data:
+    driver: local
+
+networks:
+  aliancap-network:
+    driver: bridge

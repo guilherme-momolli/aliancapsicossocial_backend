@@ -1,0 +1,53 @@
+services:
+  # -------------------------------------------------------------
+  # BANCO DE DADOS: PostgreSQL (Produção - Não exposto externamente)
+  # -------------------------------------------------------------
+  postgres-prod:
+    image: postgres:16-alpine
+    container_name: aliancap-postgres-prod
+    restart: unless-stopped
+    # Nota de Segurança: A porta do banco de dados NÃO é exposta para o host externo.
+    # A comunicação com o banco ocorre exclusivamente pela rede interna 'aliancap-network'.
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_prod_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - aliancap-network
+
+  # -------------------------------------------------------------
+  # BACKEND: Spring Boot API (Produção)
+  # -------------------------------------------------------------
+  api-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aliancap-api-prod
+    restart: unless-stopped
+    ports:
+      - "${PORT:-80}:8080" # Mapeia a porta pública para a porta do container
+    env_file:
+      - envs/.env.prod
+    environment:
+      - DB_HOST=postgres-prod
+      - DB_PORT=5432
+    depends_on:
+      postgres-prod:
+        condition: service_healthy
+    networks:
+      - aliancap-network
+
+volumes:
+  postgres_prod_data:
+    driver: local
+
+networks:
+  aliancap-network:
+    driver: bridge
