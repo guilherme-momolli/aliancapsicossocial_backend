@@ -12,6 +12,7 @@ Este é o índice central de boas práticas e padrões de desenvolvimento adotad
 * **[🔑 JWT & Autenticação Stateless](file:///c:/Users/Guilherme/OneDrive/Documentos/programing/Backend/aliancapsicossocial/docs/boas-praticas-jwt.md):** Diretrizes para geração, validação e segurança de tokens JWT com Auth0.
 * **[🗄️ Flyway & Migrações de Banco](file:///c:/Users/Guilherme/OneDrive/Documentos/programing/Backend/aliancapsicossocial/docs/boas-praticas-flyway.md):** Padrões de nomenclatura, versionamento e regras de imutabilidade para evolução do banco de dados.
 * **[📌 Git & Padrões de Commit](file:///c:/Users/Guilherme/OneDrive/Documentos/programing/Backend/aliancapsicossocial/docs/padroes-git.md):** Regras de commits semânticos (Conventional Commits) e nomenclatura de branches.
+* **[🚨 Tratamento de Exceções](file:///c:/Users/Guilherme/OneDrive/Documentos/programing/Backend/aliancapsicossocial/docs/boas-praticas-exceptions.md):** Diretrizes para o lançamento de exceções de negócio e formatação de respostas JSON padronizadas de erros.
 
 ---
 
