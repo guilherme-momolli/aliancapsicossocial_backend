@@ -25,13 +25,19 @@ import java.util.List;
 public class SecurityConfig {
 
     private final SecurityFilter securityFilter;
+    private final AuditMdcFilter auditMdcFilter;
     private final CustomAuthenticationEntryPoint authenticationEntryPoint;
 
     @Value("${api.security.cors.allowed-origins:*}")
     private String corsAllowedOrigins;
 
-    public SecurityConfig(SecurityFilter securityFilter, CustomAuthenticationEntryPoint authenticationEntryPoint) {
+    public SecurityConfig(
+            SecurityFilter securityFilter,
+            AuditMdcFilter auditMdcFilter,
+            CustomAuthenticationEntryPoint authenticationEntryPoint
+    ) {
         this.securityFilter = securityFilter;
+        this.auditMdcFilter = auditMdcFilter;
         this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
@@ -49,6 +55,7 @@ public class SecurityConfig {
                 )
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(authenticationEntryPoint))
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(auditMdcFilter, SecurityFilter.class)
                 .build();
     }
 

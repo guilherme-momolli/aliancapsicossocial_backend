@@ -1,0 +1,10 @@
+spring:
+  jpa:
+    properties:
+      org:
+        hibernate:
+          envers:
+            audit_table_suffix: _aud
+            store_data_at_delete: true
+            revision_field_name: revision_id
+            revision_type_field_name: revision_type
