@@ -28,7 +28,10 @@ public class S3StorageService {
         this.bucketName = bucketName;
     }
 
-    public void uploadFile(String key, MultipartFile file) throws IOException {
+    public String uploadFile(String folder, MultipartFile file) throws IOException {
+        String fileName = sanitizeFileName(file.getOriginalFilename());
+        String key = folder + "/" + System.currentTimeMillis() + "_" + fileName;
+
         PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                 .bucket(bucketName)
                 .key(key)
@@ -37,6 +40,17 @@ public class S3StorageService {
 
         s3Client.putObject(putObjectRequest, 
                 RequestBody.fromInputStream(file.getInputStream(), file.getSize()));
+        
+        return key;
+    }
+
+    private String sanitizeFileName(String fileName) {
+        if (fileName == null) return "unnamed";
+        return fileName.replaceAll("[^a-zA-Z0-9.\\-]", "_");
+    }
+
+    public String getFileUrl(String key) {
+        return String.format("https://%s.s3.amazonaws.com/%s", bucketName, key);
     }
 
     public void uploadFile(String key, byte[] data, String contentType) {
