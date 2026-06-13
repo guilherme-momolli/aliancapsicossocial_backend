@@ -3,7 +3,10 @@ package br.com.aliancapsicossocial.enums.usuario;
 public enum UsuarioRole {
     ADMIN("admin"),
     PROFISSIONAL("profissional"),
-    PACIENTE("paciente");
+    PACIENTE("paciente"),
+    EMPRESA("empresa"),
+    SUPORTE("suporte"),
+    ANALISTA("analista");
 
     private final String role;
 

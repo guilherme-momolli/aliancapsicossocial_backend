@@ -1,4 +1,4 @@
-# 🤝 Aliança Psicossocial - Backend (Sistema de RH)
+#  Aliança Psicossocial - Backend (Sistema de RH)
 
 Este é o backend do **Aliança Psicossocial**, um sistema completo e moderno de recrutamento, seleção e gestão de recursos humanos (RH), construído utilizando as melhores práticas do mercado, **Java 21**, **Spring Boot 4** e **PostgreSQL**.
 
@@ -6,27 +6,27 @@ A plataforma foi desenhada para atender a dois perfis principais de usuários (c
 
 ---
 
-## 📌 Sumário
+##  Sumário
 
-- [🎯 Propósito do Projeto](#propósito-do-projeto)
-- [🛠️ Tecnologias Principais](#tecnologias-principais)
-- [📦 Dependências do Projeto (pom.xml)](#dependências-do-projeto-pomxml)
-- [☁️ Arquitetura e Integração AWS](#arquitetura-e-integração-aws)
-- [📂 Estrutura de Diretórios e Documentos](#estrutura-de-diretórios-e-documentos)
-- [📖 Documentação e Boas Práticas](#documentação-e-boas-práticas)
-- [🗄️ Arquitetura de Dados (Modelagem Conceitual)](#arquitetura-de-dados-modelagem-conceitual)
-- [🚀 Como Executar o Projeto](#como-executar-o-projeto)
+- [ Propósito do Projeto](#propósito-do-projeto)
+- [️ Tecnologias Principais](#tecnologias-principais)
+- [ Dependências do Projeto (pom.xml)](#dependências-do-projeto-pomxml)
+- [️ Arquitetura e Integração AWS](#arquitetura-e-integração-aws)
+- [ Estrutura de Diretórios e Documentos](#estrutura-de-diretórios-e-documentos)
+- [ Documentação e Boas Práticas](#documentação-e-boas-práticas)
+- [️ Arquitetura de Dados (Modelagem Conceitual)](#arquitetura-de-dados-modelagem-conceitual)
+- [ Como Executar o Projeto](#como-executar-o-projeto)
   - [Pré-requisitos](#pré-requisitos)
   - [1. Configuração de Variáveis de Ambiente](#1-configuração-de-variáveis-de-ambiente)
   - [2. Executando via Docker (Recomendado)](#2-executando-via-docker-recomendado)
   - [3. Executando Localmente (Sem Docker)](#3-executando-localmente-sem-docker)
-- [📖 Documentação da API (Swagger)](#documentação-da-api-swagger)
-- [👥 Contribuição e Próximos Passos](#contribuição-e-próximos-passos)
+- [ Documentação da API (Swagger)](#documentação-da-api-swagger)
+- [ Contribuição e Próximos Passos](#contribuição-e-próximos-passos)
 
 ---
 
 
-## 🎯 Propósito do Projeto
+##  Propósito do Projeto
 
 O sistema conecta quem deseja trabalhar com quem precisa contratar, com flexibilidade total para diferentes tipos de arranjos de trabalho (CLT, PJ, Temporário, MEI). A plataforma suporta:
 
@@ -39,7 +39,7 @@ O sistema conecta quem deseja trabalhar com quem precisa contratar, com flexibil
 
 ---
 
-## 🛠️ Tecnologias Principais
+## ️ Tecnologias Principais
 
 A stack tecnológica do projeto foi definida para garantir estabilidade, segurança e alto desempenho:
 
@@ -53,7 +53,7 @@ A stack tecnológica do projeto foi definida para garantir estabilidade, seguran
 
 ---
 
-## 📦 Dependências do Projeto (pom.xml)
+##  Dependências do Projeto (pom.xml)
 
 Abaixo estão detalhadas as dependências atualmente configuradas no arquivo `pom.xml`:
 
@@ -72,7 +72,7 @@ Abaixo estão detalhadas as dependências atualmente configuradas no arquivo `po
 
 ---
 
-## ☁️ Arquitetura e Integração AWS
+##  Arquitetura e Integração AWS
 
 O projeto está desenhado para rodar e integrar-se com a nuvem da **AWS (Amazon Web Services)**. Os principais componentes em fase de desenho e implementação são:
 
@@ -87,7 +87,7 @@ O projeto está desenhado para rodar e integrar-se com a nuvem da **AWS (Amazon 
 
 ---
 
-## 📂 Estrutura de Diretórios e Documentos
+##  Estrutura de Diretórios e Documentos
 
 O projeto segue um padrão arquitetural em camadas no pacote principal `br.com.aliancapsicossocial` e mantém documentações auxiliares e de boas práticas modularizadas na pasta `docs/`:
 
@@ -119,22 +119,22 @@ aliancapsicossocial/
 
 ---
 
-## 📖 Documentação e Boas Práticas
+##  Documentação e Boas Práticas
 
 Para manter a documentação leve e otimizada para desenvolvedores e agentes de Inteligência Artificial, dividimos as diretrizes técnicas do projeto em módulos focados e de responsabilidade única. Acesse cada guia diretamente através dos links abaixo:
 
-* **[💻 Índice de Boas Práticas](file:///c:/Users/Guilherme/OneDrive/Documentos/programing/Backend/aliancapsicossocial/docs/boas-praticas.md):** Ponto de entrada geral contendo o resumo dos padrões adotados.
-* **[☕ Java 21 & Código Limpo](file:///c:/Users/Guilherme/OneDrive/Documentos/programing/Backend/aliancapsicossocial/docs/boas-praticas-java.md):** Recursos modernos (Records, switches, etc.) e legibilidade de código.
-* **[🍃 Spring Boot & Arquitetura](file:///c:/Users/Guilherme/OneDrive/Documentos/programing/Backend/aliancapsicossocial/docs/boas-praticas-spring.md):** Separação de camadas (MVC), injeção via construtor e tratamento global de erros.
-* **[🏷️ Lombok com JPA](file:///c:/Users/Guilherme/OneDrive/Documentos/programing/Backend/aliancapsicossocial/docs/guia-lombok-jpa.md):** Evitando o StackOverflowError e LazyInitializationException em entidades relacionais.
-* **[🔑 JWT & Autenticação Stateless](file:///c:/Users/Guilherme/OneDrive/Documentos/programing/Backend/aliancapsicossocial/docs/boas-praticas-jwt.md):** Diretrizes para geração, validação e segurança de tokens JWT com Auth0.
-* **[🗄️ Flyway & Migrações de Banco](file:///c:/Users/Guilherme/OneDrive/Documentos/programing/Backend/aliancapsicossocial/docs/boas-praticas-flyway.md):** Padrões de nomenclatura, versionamento e regras de imutabilidade para evolução do banco de dados.
-* **[📌 Padrões de Git & Commits](file:///c:/Users/Guilherme/OneDrive/Documentos/programing/Backend/aliancapsicossocial/docs/padroes-git.md):** Nossos padrões de Conventional Commits e fluxo de branches.
-* **[☁️ Arquitetura AWS & Nuvem](file:///c:/Users/Guilherme/OneDrive/Documentos/programing/Backend/aliancapsicossocial/docs/aws-arquitetura.md):** Desenho da infraestrutura cloud-native planejado para deploy e integrações da API.
+* **[ Índice de Boas Práticas](file:///c:/Users/Guilherme/OneDrive/Documentos/programing/Backend/aliancapsicossocial/docs/boas-praticas.md):** Ponto de entrada geral contendo o resumo dos padrões adotados.
+* **[ Java 21 & Código Limpo](file:///c:/Users/Guilherme/OneDrive/Documentos/programing/Backend/aliancapsicossocial/docs/boas-praticas-java.md):** Recursos modernos (Records, switches, etc.) e legibilidade de código.
+* **[ Spring Boot & Arquitetura](file:///c:/Users/Guilherme/OneDrive/Documentos/programing/Backend/aliancapsicossocial/docs/boas-praticas-spring.md):** Separação de camadas (MVC), injeção via construtor e tratamento global de erros.
+* **[ Lombok com JPA](file:///c:/Users/Guilherme/OneDrive/Documentos/programing/Backend/aliancapsicossocial/docs/guia-lombok-jpa.md):** Evitando o StackOverflowError e LazyInitializationException em entidades relacionais.
+* **[ JWT & Autenticação Stateless](file:///c:/Users/Guilherme/OneDrive/Documentos/programing/Backend/aliancapsicossocial/docs/boas-praticas-jwt.md):** Diretrizes para geração, validação e segurança de tokens JWT com Auth0.
+* **[ Flyway & Migrações de Banco](file:///c:/Users/Guilherme/OneDrive/Documentos/programing/Backend/aliancapsicossocial/docs/boas-praticas-flyway.md):** Padrões de nomenclatura, versionamento e regras de imutabilidade para evolução do banco de dados.
+* **[ Padrões de Git & Commits](file:///c:/Users/Guilherme/OneDrive/Documentos/programing/Backend/aliancapsicossocial/docs/padroes-git.md):** Nossos padrões de Conventional Commits e fluxo de branches.
+* **[ Arquitetura AWS & Nuvem](file:///c:/Users/Guilherme/OneDrive/Documentos/programing/Backend/aliancapsicossocial/docs/aws-arquitetura.md):** Desenho da infraestrutura cloud-native planejado para deploy e integrações da API.
 
 ---
 
-## 🗄️ Arquitetura de Dados (Modelagem Conceitual)
+##  Arquitetura de Dados (Modelagem Conceitual)
 
 A base de dados foi modelada para suportar a flexibilidade dos clientes PF/PJ por meio de relacionamentos um-para-um e herança lógica de perfis:
 
@@ -188,7 +188,7 @@ Associação entre Candidato e Vaga (Processo Seletivo).
 
 ---
 
-## 🚀 Como Executar o Projeto
+##  Como Executar o Projeto
 
 ### Pré-requisitos
 
@@ -222,7 +222,7 @@ Edite os arquivos `.env.<ambiente>` correspondentes adicionando as senhas e cred
 
 O Docker Compose gerencia automaticamente a inicialização do banco de dados PostgreSQL e a compilação/execução da API Spring Boot.
 
-#### 🛠️ Ambiente de Desenvolvimento (Dev)
+####  Ambiente de Desenvolvimento (Dev)
 Sobe o banco PostgreSQL, o PgAdmin (para visualizar o banco) e o backend em modo de desenvolvimento:
 ```bash
 docker compose --env-file envs/.env.dev up --build
@@ -231,14 +231,14 @@ docker compose --env-file envs/.env.dev up --build
 - **PgAdmin**: `http://localhost:5050` (Email: `admin@admin.com` | Senha: `admin`)
 - **PostgreSQL**: `localhost:5432`
 
-#### 🧪 Ambiente de Homologação (Staging)
+####  Ambiente de Homologação (Staging)
 Sobe um ambiente de testes isolado usando a porta alternativa `8081` para a API e `5433` para o banco:
 ```bash
 docker compose -f docker-compose.homolog.yml --env-file envs/.env.homolog up --build -d
 ```
 - **API (Homolog)**: `http://localhost:8081`
 
-#### 🏢 Ambiente de Produção (Prod)
+####  Ambiente de Produção (Prod)
 Sobe o banco de dados (protegido na rede interna do Docker) e o backend mapeado para a porta `80` (HTTP):
 ```bash
 docker compose -f docker-compose.prod.yml --env-file envs/.env.prod up --build -d
@@ -278,7 +278,7 @@ Se preferir rodar a API direto na sua máquina (fora do container):
 
 ---
 
-## 📖 Documentação da API (Swagger)
+##  Documentação da API (Swagger)
 
 Com a aplicação em execução, você pode interagir com os endpoints e visualizar os contratos de dados acessando:
 
@@ -298,7 +298,7 @@ Com a aplicação em execução, você pode interagir com os endpoints e visuali
 
 ---
 
-## 👥 Contribuição e Próximos Passos
+## Contribuição e Próximos Passos
 
 1. Configuração das Entidades Principais (`Usuario`, `PerfilCandidato`, `PerfilEmpregador`).
 2. Configuração do Spring Security com autenticação JWT.

@@ -34,4 +34,7 @@ public abstract class AuditableBaseEntity {
     @LastModifiedDate
     @Column(name = "data_atualizacao", nullable = false)
     private LocalDateTime dataAtualizacao;
+
+    @Column(name = "ativo", nullable = false)
+    private boolean ativo = true;
 }

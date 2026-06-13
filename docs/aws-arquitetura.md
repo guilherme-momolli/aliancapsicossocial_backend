@@ -1,10 +1,10 @@
-# ☁️ Arquitetura AWS e Planejamento de Integrações
+# ️ Arquitetura AWS e Planejamento de Integrações
 
 Este documento descreve o ecossistema e os serviços da **Amazon Web Services (AWS)** planejados para hospedar e integrar o backend do **Aliança Psicossocial**. Ele serve como guia para a infraestrutura como código (IaC) e integrações na API.
 
 ---
 
-## 📌 Sumário
+## Sumário
 
 1. [Visão Geral da Arquitetura](#1-visão-geral-da-arquitetura)
 2. [Serviços AWS Planejados](#2-serviços-aws-planejados)
@@ -31,35 +31,35 @@ graph TD
 
 ## 2. Serviços AWS Planejados
 
-### 🗃️ 1. Amazon S3 (Simple Storage Service)
+### ️ 1. Amazon S3 (Simple Storage Service)
 * **Objetivo:** Armazenamento de arquivos estáticos de forma segura e durável.
 * **Uso no Projeto:**
   * Armazenar currículos dos candidatos em formato PDF/DOCX.
   * Armazenar logos corporativos das empresas contratantes e imagens de perfil dos candidatos.
 * **Segurança:** Buckets privados. Acesso de leitura aos currículos feito temporariamente via **Presigned URLs** com tempo de expiração curto (ex: 15 minutos), impedindo acesso público direto a dados sensíveis (LGPD).
 
-### 📧 2. Amazon SES (Simple Email Service)
+###  2. Amazon SES (Simple Email Service)
 * **Objetivo:** Serviço de envio de e-mails em massa e transacionais de alta confiabilidade.
 * **Uso no Projeto:**
   * Enviar e-mails de confirmação de cadastro e recuperação de senha.
   * Notificações de mudança de status da candidatura (ex: "Seu currículo foi selecionado para entrevista!").
   * Alertas de novas vagas condizentes com o perfil do candidato.
 
-### 💾 3. Amazon RDS (Relational Database Service) - PostgreSQL
+###  3. Amazon RDS (Relational Database Service) - PostgreSQL
 * **Objetivo:** Banco de dados relacional totalmente gerenciado pela AWS.
 * **Uso no Projeto:**
   * Armazenamento principal de tabelas do sistema (`usuarios`, `perfis`, `vagas`, `candidaturas`).
   * Configurado em Multi-AZ em ambiente de produção para alta disponibilidade (failover automático).
   * Backups automáticos diários com retenção configurável.
 
-### 🐳 4. AWS ECS (Elastic Container Service) com AWS Fargate
+###  4. AWS ECS (Elastic Container Service) com AWS Fargate
 * **Objetivo:** Orquestração de containers Docker de forma Serverless.
 * **Uso no Projeto:**
   * Executar a imagem Docker gerada pelo `Dockerfile` do backend de forma escalável e sob demanda.
   * O Fargate elimina a necessidade de gerenciar e atualizar servidores EC2 físicos.
   * Integração com **Auto Scaling** baseado em consumo de CPU/Memória para escalar o número de containers dinamicamente.
 
-### 🔑 5. AWS Secrets Manager
+###  5. AWS Secrets Manager
 * **Objetivo:** Armazenamento centralizado e rotação segura de credenciais.
 * **Uso no Projeto:**
   * Guardar a senha de produção do banco RDS, segredos do JWT e chaves de APIs externas.

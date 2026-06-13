@@ -1,6 +1,6 @@
 package br.com.aliancapsicossocial.configurations;
 
-import br.com.aliancapsicossocial.services.TokenService;
+import br.com.aliancapsicossocial.security.JwtTokenProvider;
 import br.com.aliancapsicossocial.repositories.UsuarioRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -18,11 +18,11 @@ import java.io.IOException;
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
 
-    private final TokenService tokenService;
+    private final JwtTokenProvider tokenProvider;
     private final UsuarioRepository repository;
 
-    public SecurityFilter(TokenService tokenService, UsuarioRepository repository) {
-        this.tokenService = tokenService;
+    public SecurityFilter(JwtTokenProvider tokenProvider, UsuarioRepository repository) {
+        this.tokenProvider = tokenProvider;
         this.repository = repository;
     }
 
@@ -31,7 +31,7 @@ public class SecurityFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         String token = recuperarToken(request);
         if (token != null) {
-            String email = tokenService.validarToken(token);
+            String email = tokenProvider.validateTokenAndGetSubject(token);
             if (email != null) {
                 UserDetails usuario = repository.findByEmail(email)
                         .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));

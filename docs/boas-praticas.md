@@ -15,6 +15,8 @@ Este é o índice central de boas práticas e padrões de desenvolvimento adotad
 * **[Auditoria Defense in Depth](file:///c:/Users/Guilherme/OneDrive/Documentos/programing/Backend/aliancapsicossocial/docs/auditoria-corporativa-defense-in-depth.md):** Guia operacional para correlação entre MDC, logs JSON, eventos de autenticação e tabelas `_aud`.
 * **[📌 Git & Padrões de Commit](file:///c:/Users/Guilherme/OneDrive/Documentos/programing/Backend/aliancapsicossocial/docs/padroes-git.md):** Regras de commits semânticos (Conventional Commits) e nomenclatura de branches.
 * **[🚨 Tratamento de Exceções](file:///c:/Users/Guilherme/OneDrive/Documentos/programing/Backend/aliancapsicossocial/docs/boas-praticas-exceptions.md):** Diretrizes para o lançamento de exceções de negócio e formatação de respostas JSON padronizadas de erros.
+* **[🤖 AI Agent Guidelines](../GEMINI.md):** Regras de operação, escrita e arquitetura para assistentes de inteligência artificial.
+* **[🏗️ Estrutura do Projeto](estrutura-projeto/index.md):** Padroes de pastas, camadas e responsabilidades seguindo Clean Architecture.
 
 ---
 
