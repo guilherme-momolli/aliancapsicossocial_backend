@@ -1,0 +1,72 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - homolog
+      - dev
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'amazon correto'
+          cache: maven
+
+      - name: Build with Maven
+        run: ./mvnw clean package -DskipTests
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Determine Environment and Tag
+        id: env-vars
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "ENV=prod" >> $GITHUB_OUTPUT
+            echo "TAG=prod-latest" >> $GITHUB_OUTPUT
+            echo "CLUSTER=aliancapsicossocial-prod" >> $GITHUB_OUTPUT
+            echo "SERVICE=aliancapsicossocial-api-prod" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == "refs/heads/homolog" ]]; then
+            echo "ENV=homolog" >> $GITHUB_OUTPUT
+            echo "TAG=homolog-latest" >> $GITHUB_OUTPUT
+            echo "CLUSTER=aliancapsicossocial-homolog" >> $GITHUB_OUTPUT
+            echo "SERVICE=aliancapsicossocial-api-homolog" >> $GITHUB_OUTPUT
+          else
+            echo "ENV=dev" >> $GITHUB_OUTPUT
+            echo "TAG=dev-latest" >> $GITHUB_OUTPUT
+            echo "CLUSTER=aliancapsicossocial-dev" >> $GITHUB_OUTPUT
+            echo "SERVICE=aliancapsicossocial-api-dev" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Build, Tag, and Push Image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: aliancapsicossocial-api
+          IMAGE_TAG: ${{ steps.env-vars.outputs.TAG }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+      - name: Deploy to Amazon ECS
+        run: |
+          aws ecs update-service --cluster ${{ steps.env-vars.outputs.CLUSTER }} \
+                                 --service ${{ steps.env-vars.outputs.SERVICE }} \
+                                 --force-new-deployment
