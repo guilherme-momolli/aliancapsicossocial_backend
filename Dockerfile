@@ -1,7 +1,7 @@
 # =========================================================================
-# ESTÁGIO 1: Build da Aplicação (Maven + JDK 21)
+# ESTÁGIO 1: Build da Aplicação (Maven + Amazon Corretto 21)
 # =========================================================================
-FROM maven:3.9.6-eclipse-temurin-21 AS builder
+FROM maven:3.9.6-amazoncorretto-21 AS builder
 WORKDIR /app
 
 # Otimização de Cache: Copia apenas o pom.xml e baixa as dependências
@@ -13,9 +13,9 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # =========================================================================
-# ESTÁGIO 2: Execução da Aplicação (JRE 21 Leve)
+# ESTÁGIO 2: Execução da Aplicação (Amazon Corretto 21 Alpine - Leve)
 # =========================================================================
-FROM eclipse-temurin:21-jre-alpine
+FROM amazoncorretto:21-alpine
 WORKDIR /app
 
 # Criação de um usuário não-root por motivos de segurança do container

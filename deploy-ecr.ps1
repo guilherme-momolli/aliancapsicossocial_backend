@@ -2,10 +2,31 @@
 # SCRIPT DE COMPILAÇÃO E PUBLICAÇÃO DOCKER NO AWS ECR
 # =========================================================================
 
+# 0. Carregar variáveis do arquivo .env.dev se ele existir
+$envFilePath = "envs/.env.dev"
+if (Test-Path $envFilePath) {
+    Write-Host "Carregando variÃ¡veis de $envFilePath..." -ForegroundColor Gray
+    Get-Content $envFilePath | Where-Object { $_ -match '=' -and $_ -notmatch '^#' } | ForEach-Object {
+        $name, $value = $_.Split('=', 2)
+        $envName = $name.Trim()
+        $envValue = $value.Trim()
+        Set-Content -Path "env:$envName" -Value $envValue
+    }
+}
+
 $AWS_ACCOUNT_ID = "530923037363"
 $AWS_ACCESS_KEY = $env:AWS_ACCESS_KEY_ID
 $AWS_SECRET_KEY = $env:AWS_SECRET_ACCESS_KEY
-$AWS_REGION = "us-east-1"
+$AWS_REGION = if ($env:AWS_REGION) { $env:AWS_REGION } else { "us-east-1" }
+
+# DEBUG: Verificar se as chaves foram carregadas
+if ([string]::IsNullOrWhiteSpace($AWS_ACCESS_KEY)) { Write-Host "DEBUG: AWS_ACCESS_KEY_ID estÃ¡ VAZIA" -ForegroundColor Red }
+else { Write-Host "DEBUG: AWS_ACCESS_KEY_ID carregada: $($AWS_ACCESS_KEY.Substring(0,4))..." -ForegroundColor Gray }
+
+if ([string]::IsNullOrWhiteSpace($AWS_SECRET_KEY)) { Write-Host "DEBUG: AWS_SECRET_ACCESS_KEY estÃ¡ VAZIA" -ForegroundColor Red }
+else { Write-Host "DEBUG: AWS_SECRET_ACCESS_KEY carregada: (protegida)" -ForegroundColor Gray }
+
+Write-Host "DEBUG: Usando RegiÃ£o: $AWS_REGION" -ForegroundColor Gray
 
 $REPOSITORY_NAME = "aliancapsicossocial-api"
 $REGISTRY_URL = "$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com"
@@ -26,14 +47,24 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 # 2. Obter token ECR
-Write-Host "[2/4] Obtendo token temporário do ECR..." -ForegroundColor Yellow
+Write-Host "[2/4] Obtendo token temporÃ¡rio do ECR..." -ForegroundColor Yellow
 
+# Voltamos com o -q para que a saÃda seja APENAS a senha
 $EcrPassword = ./mvnw exec:java `
     -q `
-    -Dexec.mainClass="br.com.aliancapsicossocial.helpers.EcrLoginHelper" `
-    -Dexec.args="$AWS_ACCESS_KEY $AWS_SECRET_KEY $AWS_REGION"
+    "-Dexec.mainClass=br.com.aliancapsicossocial.helpers.EcrLoginHelper" `
+    "-Dexec.args=$AWS_ACCESS_KEY $AWS_SECRET_KEY $AWS_REGION"
 
 if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($EcrPassword)) {
+    Write-Host "-----------------------------------------------------------------" -ForegroundColor Red
+    Write-Host "ERRO AO OBTER TOKEN DA AWS. Tentando obter detalhes do erro..." -ForegroundColor Red
+
+    # Roda novamente sem o -q apenas para mostrar o erro ao usuÃ¡rio
+    ./mvnw exec:java `
+        "-Dexec.mainClass=br.com.aliancapsicossocial.helpers.EcrLoginHelper" `
+        "-Dexec.args=$AWS_ACCESS_KEY $AWS_SECRET_KEY $AWS_REGION"
+
+    Write-Host "-----------------------------------------------------------------" -ForegroundColor Red
     Write-Error "Falha ao obter token do AWS ECR."
     exit 1
 }
@@ -42,6 +73,9 @@ $EcrPassword = $EcrPassword.Trim()
 
 # 3. Login Docker
 Write-Host "[3/4] Autenticando Docker no ECR..." -ForegroundColor Yellow
+
+# Removemos qualquer caractere de controle que o Maven possa ter inserido
+$EcrPassword = $EcrPassword.Replace("`r", "").Replace("`n", "").Trim()
 
 Write-Output $EcrPassword | docker login `
     --username AWS `
