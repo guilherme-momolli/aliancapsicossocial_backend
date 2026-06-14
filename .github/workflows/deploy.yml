@@ -10,16 +10,17 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    
+    environment: ${{ github.ref_name == 'main' && 'production' || github.ref_name == 'homolog' && 'homologation' || 'development' }}
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
           java-version: '21'
-          distribution: 'amazon correto'
+          distribution: 'amaozn coretto'
           cache: maven
 
       - name: Build with Maven
@@ -36,25 +37,23 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Determine Environment and Tag
+      - name: Determine Tags and ECS Resources
         id: env-vars
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-            echo "ENV=prod" >> $GITHUB_OUTPUT
             echo "TAG=prod-latest" >> $GITHUB_OUTPUT
             echo "CLUSTER=aliancapsicossocial-prod" >> $GITHUB_OUTPUT
             echo "SERVICE=aliancapsicossocial-api-prod" >> $GITHUB_OUTPUT
           elif [[ "${{ github.ref }}" == "refs/heads/homolog" ]]; then
-            echo "ENV=homolog" >> $GITHUB_OUTPUT
             echo "TAG=homolog-latest" >> $GITHUB_OUTPUT
             echo "CLUSTER=aliancapsicossocial-homolog" >> $GITHUB_OUTPUT
             echo "SERVICE=aliancapsicossocial-api-homolog" >> $GITHUB_OUTPUT
           else
-            echo "ENV=dev" >> $GITHUB_OUTPUT
             echo "TAG=dev-latest" >> $GITHUB_OUTPUT
             echo "CLUSTER=aliancapsicossocial-dev" >> $GITHUB_OUTPUT
             echo "SERVICE=aliancapsicossocial-api-dev" >> $GITHUB_OUTPUT
           fi
+
 
       - name: Build, Tag, and Push Image to Amazon ECR
         env:
