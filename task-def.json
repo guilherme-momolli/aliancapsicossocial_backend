@@ -1,0 +1,23 @@
+{
+    "family": "aliancapsicossocial-api-dev",
+    "networkMode": "awsvpc",
+    "containerDefinitions": [
+        {
+            "name": "api",
+            "image": "530923037363.dkr.ecr.us-east-1.amazonaws.com/aliancapsicossocial-api:latest",
+            "portMappings": [
+                {
+                    "containerPort": 8080,
+                    "hostPort": 8080,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true
+        }
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "256",
+    "memory": "512"
+}
